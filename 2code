@@ -1,0 +1,8 @@
+2) Function which counts the number of records 
+CREATE OR REPLACE FUNCTION count_movies RETURN NUMBER IS
+  movie_count NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO movie_count FROM movie;
+  RETURN movie_count;
+END;
+SELECT count_movies() FROM dual;
