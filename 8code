@@ -1,0 +1,31 @@
+8)Procedure which does group by information
+CREATE OR REPLACE PROCEDURE movie_summary IS
+  CURSOR c_movies IS
+    SELECT genre, COUNT(*) AS num_movies, AVG(rating) AS avg_rating
+    FROM movie
+    GROUP BY genre;
+  
+  v_genre movie.genre%TYPE;
+  v_num_movies NUMBER;
+  v_avg_rating NUMBER;
+BEGIN
+  OPEN c_movies;
+  
+  LOOP
+    FETCH c_movies INTO v_genre, v_num_movies, v_avg_rating;
+    EXIT WHEN c_movies%NOTFOUND;
+    
+    DBMS_OUTPUT.PUT_LINE('Genre: ' || v_genre);
+    DBMS_OUTPUT.PUT_LINE('Number of movies: ' || v_num_movies);
+    DBMS_OUTPUT.PUT_LINE('Average rating: ' || v_avg_rating);
+    DBMS_OUTPUT.PUT_LINE('');
+  END LOOP;
+  
+  CLOSE c_movies;
+END;
+
+DECLARE
+BEGIN
+  movie_summary;
+END;
+/
