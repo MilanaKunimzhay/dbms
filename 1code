@@ -1,0 +1,11 @@
+1) Procedure which does group by information
+CREATE OR REPLACE PROCEDURE group_movies_by_genre AS
+BEGIN
+  FOR r IN (SELECT genre, SUM(cost) AS total_cost FROM movie GROUP BY genre)
+  LOOP
+    DBMS_OUTPUT.PUT_LINE(r.genre  ': $'  r.total_cost);
+  END LOOP;
+END;
+BEGIN
+  group_movies_by_genre;
+END;
