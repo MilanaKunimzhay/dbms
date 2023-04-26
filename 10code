@@ -1,0 +1,8 @@
+DECLARE
+bill_rec bill%ROWTYPE;
+BEGIN
+SELECT * INTO bill_rec FROM bill WHERE biil_id = 11;
+bill_rec.total_sum := bill_rec.total_sum * 1.1;
+UPDATE bill SET total_sum = bill_rec.total_sum WHERE biil_id =
+bill_rec.biil_id;
+END;
