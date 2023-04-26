@@ -1,0 +1,23 @@
+9)This code define soundtrack’s genre 
+DECLARE
+  CURSOR c_soundtracks_genres IS
+    SELECT s.title, m.genre
+    FROM soundtrack s
+    LEFT JOIN movie_sound ms ON s.soundtrack_id = ms.soundtrack_id
+    LEFT JOIN movie m ON ms.movie_id = m.id;
+    
+  soundtrack_title soundtrack.title%TYPE;
+  movie_genre movie.genre%TYPE;
+BEGIN
+  OPEN c_soundtracks_genres;
+  
+  LOOP
+    FETCH c_soundtracks_genres INTO soundtrack_title, movie_genre;
+    
+    EXIT WHEN c_soundtracks_genres%NOTFOUND;
+    
+    DBMS_OUTPUT.PUT_LINE(soundtrack_title ||  ' - ' || movie_genre);
+  END LOOP;
+  
+  CLOSE c_soundtracks_genres;
+END;
