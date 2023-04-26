@@ -1,0 +1,19 @@
+4) user-defined exceptions
+DECLARE
+  e_title_short EXCEPTION;
+  PRAGMA EXCEPTION_INIT(e_title_short, -20001);
+  v_name movie.name%TYPE := 'Toy';
+BEGIN
+  IF LENGTH(v_name) < 5 THEN
+    RAISE e_title_short;
+  END IF;
+  
+  INSERT INTO movie(id, name, age_limit, country, genre, rating, year, cost)
+  VALUES (17, v_name, 18, 'USA', 'Action', 4.5, 2022, 10);
+
+  dbms_output.put_line('Movie record inserted successfully.');
+
+EXCEPTION
+  WHEN e_title_short THEN
+    dbms_output.put_line('Movie title must be at least 5 characters long.');
+END;
