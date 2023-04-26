@@ -1,0 +1,11 @@
+5)a trigger before insert on any entity which will show the current number of rows in the table
+CREATE OR REPLACE TRIGGER count_rows_trigger
+BEFORE INSERT ON users
+DECLARE
+  v_row_count NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO v_row_count FROM users;
+  dbms_output.put_line('Current number of rows in the table: ' || v_row_count);
+END;
+
+insert into users(user_id, f_name, l_name, email, age,phone_num) values (31, 'Ainur' ,'Kurakbai','ainur@exam.com',18,35-06)
