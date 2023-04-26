@@ -1,0 +1,26 @@
+7)Procedure which uses SQL%ROWCOUNT to determine the number of rows affected
+CREATE OR REPLACE PROCEDURE update_movie_name (
+  p_movie_id IN movie.id%TYPE,
+  p_new_name IN movie.name%TYPE
+)
+IS
+BEGIN
+  UPDATE movie
+  SET name = p_new_name
+  WHERE id = p_movie_id;
+  
+  IF SQL%ROWCOUNT = 0 THEN
+    DBMS_OUTPUT.PUT_LINE('No movie with the given ID was found.');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('Movie title updated successfully.');
+  END IF;
+END;
+/
+
+DECLARE
+  v_movie_id movie.id%TYPE := 1; -- set the movie id parameter value
+  v_new_name movie.name%TYPE := 'New Movie Name'; 
+BEGIN
+  update_movie_name(v_movie_id, v_new_name); 
+END;
+
