@@ -1,0 +1,39 @@
+3) Exceptions that If the user is not 18 years old and the movie is rated 18+, the trigger raises a user-defined exception.
+
+CREATE OR REPLACE PROCEDURE process_bill (
+    p_bill_id IN NUMBER,
+    p_date_of IN DATE,
+    p_total_sum IN NUMBER,
+    p_user_pay_id IN NUMBER,
+    p_movie_id IN NUMBER,
+    p_user_age IN NUMBER
+) AS
+    v_movie_age_limit NUMBER;
+    e_underage EXCEPTION;
+BEGIN
+    -- get the age limit for the movie
+    SELECT age_limit INTO v_movie_age_limit FROM movie WHERE id = p_movie_id;
+
+    -- check if user is allowed to buy the movie based on age limit
+    IF (p_user_age < v_movie_age_limit) THEN
+        RAISE e_underage;
+    ELSE
+        -- insert bill into database
+        INSERT INTO bill (biil_id, date_of, total_sum, user_pay_id, movie_id)
+        VALUES (p_bill_id, p_date_of, p_total_sum, p_user_pay_id, p_movie_id);
+        
+        -- display success message
+        dbms_output.put_line('Bill processed successfully.');
+    END IF;
+    
+    EXCEPTION
+        WHEN e_underage THEN
+            dbms_output.put_line('User is underage to buy this movie.');
+END;
+
+
+DECLARE
+    v_user_age NUMBER := 17;
+BEGIN
+    process_bill(15, SYSDATE, 10, 9, 16, v_user_age);
+END;
